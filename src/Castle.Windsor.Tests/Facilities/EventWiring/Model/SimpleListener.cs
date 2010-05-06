@@ -19,13 +19,26 @@ namespace Castle.Facilities.EventWiring.Tests.Model
 	public class SimpleListener
 	{
 		private bool listened;
-		private object sender;
+
+		public static int InstancesCreated;
+		private int count;
+
+		public int Count
+		{
+			get { return count; }
+		}
+
+		public SimpleListener()
+		{
+			InstancesCreated++;
+		}
 
 		public void OnPublish(object sender, EventArgs e)
 		{
-			this.sender = sender;
+			Sender = sender;
 
 			listened = sender != null;
+			count++;
 		}
 
 		public bool Listened
@@ -38,10 +51,8 @@ namespace Castle.Facilities.EventWiring.Tests.Model
 
 		public object Sender
 		{
-			get
-			{
-				return sender;
-			}
+			get;
+			set;
 		}
 	}
 }

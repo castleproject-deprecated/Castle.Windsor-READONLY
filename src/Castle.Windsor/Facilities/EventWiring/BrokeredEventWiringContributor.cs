@@ -24,6 +24,13 @@ namespace Castle.Facilities.EventWiring
 
 	public class BrokeredEventWiringContributor : IContributeComponentModelConstruction
 	{
+		private readonly EventWiringFacility facility;
+
+		public BrokeredEventWiringContributor(EventWiringFacility facility)
+		{
+			this.facility = facility;
+		}
+
 		public void ProcessModel(IKernel kernel, ComponentModel model)
 		{
 			if (IsPublisher(model))
@@ -126,7 +133,7 @@ namespace Castle.Facilities.EventWiring
 			}
 		}
 
-		private static void RegisterPublisher(ComponentModel model)
+		private void RegisterPublisher(ComponentModel model)
 		{
 			var events = new Dictionary<string, EventInfo>(StringComparer.OrdinalIgnoreCase);
 			foreach (var @event in model.Configuration.Children["publishedEvents"].Children)
@@ -137,9 +144,10 @@ namespace Castle.Facilities.EventWiring
 			}
 
 			model.ExtendedProperties["publishedEvents"] = events;
+			model.LifecycleSteps.Add(LifecycleStepType.Decommission,new UnwireEventPublisher(facility));
 		}
 
-		private static void RegisterSubscriber(ComponentModel model)
+		private void RegisterSubscriber(ComponentModel model)
 		{
 			var handlers = new Dictionary<string, MethodInfo>(StringComparer.OrdinalIgnoreCase);
 			foreach (var @event in model.Configuration.Children["subscribedEvents"].Children)
@@ -149,6 +157,7 @@ namespace Castle.Facilities.EventWiring
 				RegisterEventHandler(id, handlerName, model, handlers);
 			}
 			model.ExtendedProperties["subscribedEvents"] = handlers;
+			model.LifecycleSteps.Add(LifecycleStepType.Decommission, new UnwireEventSubscriber(facility));
 		}
 	}
 }

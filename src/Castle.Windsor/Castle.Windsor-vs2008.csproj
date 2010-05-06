@@ -123,6 +123,8 @@
     <Compile Include="Facilities\EventWiring\BrokeredEventWiringContributor.cs" />
     <Compile Include="Facilities\EventWiring\EventWiringContributor.cs" />
     <Compile Include="Facilities\EventWiring\EventWiringRegistrationExtensions.cs" />
+    <Compile Include="Facilities\EventWiring\UnwireEventPublisher.cs" />
+    <Compile Include="Facilities\EventWiring\UnwireEventSubscriber.cs" />
     <Compile Include="MicroKernel\ComponentActivator\AbstractComponentActivator.cs">
       <SubType>Code</SubType>
     </Compile>

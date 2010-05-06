@@ -128,25 +128,12 @@ namespace Castle.Facilities.EventWiring
 		protected override void Init()
 		{
 			Kernel.ComponentModelBuilder.AddContributor(new EventWiringContributor());
-			Kernel.ComponentModelBuilder.AddContributor(new BrokeredEventWiringContributor());
+			Kernel.ComponentModelBuilder.AddContributor(new BrokeredEventWiringContributor(this));
 
 			Kernel.ComponentCreated += OnComponentCreated;
-			Kernel.ComponentDestroyed += OnComponentDestroyed;
 		}
 
-		private void OnComponentDestroyed(ComponentModel model, object instance)
-		{
-			if (IsPublisher(model))
-			{
-				UnwirePublisher(model, instance);
-			}
-			if (IsSubscriber(model))
-			{
-				UnwireSubscriber(model, instance);
-			}
-		}
-
-		private void UnwireEvent(string key, EventInfo @event, object instance)
+		public void UnwireEvent(string key, EventInfo @event, object instance)
 		{
 			using (@lock.ForWriting())
 			{
@@ -155,30 +142,12 @@ namespace Castle.Facilities.EventWiring
 			}
 		}
 
-		private void UnwireHandler(string key, MethodInfo handler, object instance)
+		public void UnwireHandler(string key, MethodInfo handler, object instance)
 		{
 			using (@lock.ForWriting())
 			{
 				var handlerList = handlers[key];
 				handlerList.Remove(new Pair<object, MethodInfo>(instance, handler));
-			}
-		}
-
-		private void UnwirePublisher(ComponentModel model, object instance)
-		{
-			var events = model.ExtendedProperties["publishedEvents"] as IDictionary<string, EventInfo>;
-			foreach (var @event in events)
-			{
-				UnwireEvent(@event.Key, @event.Value, instance);
-			}
-		}
-
-		private void UnwireSubscriber(ComponentModel model, object instance)
-		{
-			var handlers = model.ExtendedProperties["subscribedEvents"] as IDictionary<string, MethodInfo>;
-			foreach (var handler in handlers)
-			{
-				UnwireHandler(handler.Key, handler.Value, instance);
 			}
 		}
 
@@ -262,8 +231,8 @@ namespace Castle.Facilities.EventWiring
 
 		private void InitSubscriber(ComponentModel model, object instance)
 		{
-			var handlers = model.ExtendedProperties["subscribedEvents"] as IDictionary<string, MethodInfo>;
-			foreach (var handler in handlers)
+			var eventHandlers = model.ExtendedProperties["subscribedEvents"] as IDictionary<string, MethodInfo>;
+			foreach (var handler in eventHandlers)
 			{
 				InitEventHandler(handler.Value, instance, handler.Key);
 			}
