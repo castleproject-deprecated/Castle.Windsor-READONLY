@@ -12,57 +12,40 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if (!SILVERLIGHT)
 namespace Castle.Facilities.EventWiring.Tests
 {
 	using Castle.Facilities.EventWiring.Tests.Model;
+	using Castle.MicroKernel.Registration;
 	using Castle.Windsor;
-	using Castle.Windsor.Tests;
 
 	using NUnit.Framework;
 
-	public abstract class WiringTestBase
+	[TestFixture]
+	public class FluentEventWiringTestCase
 	{
-		protected WindsorContainer container;
+		private WindsorContainer container;
 
 		[SetUp]
-		public void Init()
+		public void SetUpTests()
 		{
-			container = new WindsorContainer(ConfigHelper.ResolveConfigPath("Facilities/EventWiring/" + GetConfigFile()));
+			container = new WindsorContainer();
+			container.AddFacility<EventWiringFacility>();
 		}
 
-		protected abstract string GetConfigFile();
-
 		[Test]
-		public void TriggerSimple()
+		public void Can_fluently_wire_events()
 		{
-			SimplePublisher publisher = (SimplePublisher)container["SimplePublisher"];
-			SimpleListener listener = (SimpleListener)container["SimpleListener"];
+			container.Register(Component.For<SimplePublisher>().PublishEvent("Event", "myUniqueEventId"),
+							   Component.For<SimpleListener>().SubscribeEvent("myUniqueEventId", "OnPublish"));
+			var publisher = container.Resolve<SimplePublisher>();
+			var listener = container.Resolve<SimpleListener>();
 
 			Assert.IsFalse(listener.Listened);
-			Assert.IsNull(listener.Sender);
 
 			publisher.Trigger();
 
 			Assert.IsTrue(listener.Listened);
 			Assert.AreSame(publisher, listener.Sender);
 		}
-
-		[Test]
-		public void TriggerStaticEvent()
-		{
-			SimplePublisher publisher = (SimplePublisher)container["SimplePublisher"];
-			SimpleListener listener = (SimpleListener)container["SimpleListener2"];
-
-			Assert.IsFalse(listener.Listened);
-			Assert.IsNull(listener.Sender);
-
-			publisher.StaticTrigger();
-
-			Assert.IsTrue(listener.Listened);
-			Assert.AreSame(publisher, listener.Sender);
-		}
 	}
 }
-
-#endif

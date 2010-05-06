@@ -120,6 +120,9 @@
     <Compile Include="Core\InterceptorAttribute.cs" />
     <Compile Include="Core\Internal\ReflectionUtil.cs" />
     <Compile Include="Core\LifestyleAttributes.cs" />
+    <Compile Include="Facilities\EventWiring\BrokeredEventWiringContributor.cs" />
+    <Compile Include="Facilities\EventWiring\EventWiringContributor.cs" />
+    <Compile Include="Facilities\EventWiring\EventWiringRegistrationExtensions.cs" />
     <Compile Include="MicroKernel\ComponentActivator\AbstractComponentActivator.cs">
       <SubType>Code</SubType>
     </Compile>
