@@ -14,7 +14,9 @@
 
 namespace Castle.MicroKernel.Tests.ClassComponents
 {
-	public interface IRepository
+  using System;
+
+  public interface IRepository
 	{
 	}
 
@@ -92,11 +94,34 @@ namespace Castle.MicroKernel.Tests.ClassComponents
 		}
 	}
 
-	public class CustomerRepository : IRepository<ICustomer>
+  public interface ICustomerRepository
+  {
+    ICustomer GetByZipCode(string zipCode);
+  }
+
+  public class CustomerRepository : IRepository<ICustomer>
 	{
 		public ICustomer Find()
 		{
 			return new CustomerImpl();
 		}
+
+	  public ICustomer GetByZipCode(string zipCode)
+	  {
+	    return new CustomerImpl();
+	  }
 	}
+
+  public class CustomerRepository2 : ICustomerRepository, IRepository<ICustomer>
+  {
+    public ICustomer GetByZipCode(string zipCode)
+    {
+      return new CustomerImpl();
+    }
+
+    public ICustomer Find()
+    {
+      return new CustomerImpl();
+    }
+  }
 }

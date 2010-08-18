@@ -104,7 +104,41 @@ namespace Castle.MicroKernel.Registration
 			});
 		}
 
-		/// <summary>
+    /// <summary>
+    /// Uses the first non generic interface of a type. This method has non-deterministic behavior when type implements more than one interface!
+    /// </summary>
+    /// <returns></returns>
+	  public BasedOnDescriptor FirstNonGenericInterface()
+	  {
+	    return FirstNonGenericInterfaceInNamespace(string.Empty);
+	  }
+
+    /// <summary>
+    /// Uses the first non generic interface of a type in a specific namespace. This method has non-deterministic behavior when type implements more than one interface!
+    /// </summary>
+    /// <param name="interfaceNamespace"></param>
+    /// <returns></returns>
+	  public BasedOnDescriptor FirstNonGenericInterfaceInNamespace(string interfaceNamespace)
+	  {
+	   return Select(delegate(Type type, Type[] baseType)
+                                         {
+                                             var interfaces = type.GetInterfaces()
+                                                 .Where(
+                                                     t =>
+                                                     t.IsGenericType == false)
+                                                 .Where(t => string.IsNullOrEmpty(interfaceNamespace)     
+                                                    || t.Namespace.StartsWith(interfaceNamespace));
+
+                                             if (interfaces.Count() > 0)
+                                             {
+                                                 return new[] { interfaces.ElementAt(0) };
+                                             }
+
+                                             return null;
+                                         });
+	  }
+
+	  /// <summary>
 		/// Uses <paramref name="implements"/> to lookup the sub interface.
 		/// For example: if you have IService and 
 		/// IProductService : ISomeInterface, IService, ISomeOtherInterface.
@@ -149,7 +183,7 @@ namespace Castle.MicroKernel.Registration
 			});
 		}
 
-		private void AddFromInterface(Type type, Type implements, ICollection<Type> matches)
+	  private void AddFromInterface(Type type, Type implements, ICollection<Type> matches)
 		{
 			foreach (var @interface in GetTopLevelInterfaces(type))
 			{
@@ -164,7 +198,7 @@ namespace Castle.MicroKernel.Registration
 			}
 		}
 
-		/// <summary>
+	  /// <summary>
 		/// Uses base type to lookup the sub interface.
 		/// </summary>
 		/// <returns></returns>
@@ -173,7 +207,7 @@ namespace Castle.MicroKernel.Registration
 			return FromInterface(null);
 		}
 
-		/// <summary>
+	  /// <summary>
 		/// Assigns a custom service selection strategy.
 		/// </summary>
 		/// <param name="selector"></param>
@@ -183,8 +217,8 @@ namespace Castle.MicroKernel.Registration
 			serviceSelector += selector;
 			return basedOnDescriptor;
 		}
-		
-		/// <summary>
+
+	  /// <summary>
 		/// Assigns the supplied service types.
 		/// </summary>
 		/// <param name="types"></param>
@@ -194,7 +228,7 @@ namespace Castle.MicroKernel.Registration
 			return Select(delegate { return types; });
 		}
 
-		internal ICollection<Type> GetServices(Type type, Type[] baseType)
+	  internal ICollection<Type> GetServices(Type type, Type[] baseType)
 		{
 			ICollection<Type> services =
 #if SL3
@@ -222,7 +256,7 @@ namespace Castle.MicroKernel.Registration
 			return services;
 		}
 
-		private IEnumerable<Type> GetTopLevelInterfaces(Type type)
+	  private IEnumerable<Type> GetTopLevelInterfaces(Type type)
 		{
 			Type[] interfaces = type.GetInterfaces();
 			List<Type> topLevel = new List<Type>(interfaces);
@@ -238,7 +272,7 @@ namespace Castle.MicroKernel.Registration
 			return topLevel;
 		}
 
-		/// <summary>
+	  /// <summary>
 		/// This is a workaround for a CLR bug in
 		/// which GetInterfaces() returns interfaces
 		/// with no implementations.

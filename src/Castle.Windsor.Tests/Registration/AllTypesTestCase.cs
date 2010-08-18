@@ -467,6 +467,30 @@ namespace Castle.MicroKernel.Tests.Registration
 			Assert.IsNotNull(repository);
 		}
 
+    [Test]
+    public void RegisterSpecificTypes_WithNonGenericDefinition_RegisteredInContainer()
+    {
+      Kernel.Register(AllTypes.From(typeof(CustomerRepository2))
+                        .Pick()
+                        .WithService.FirstNonGenericInterface()
+        );
+
+      var repository = Kernel.Resolve<ICustomerRepository>();
+      Assert.IsNotNull(repository);
+    }
+
+    [Test]
+    public void RegisterSpecificTypes_WithNonGenericDefinitionInNamespace_RegisteredInContainer()
+    {
+      Kernel.Register(AllTypes.From(typeof(CustomerRepository2))
+                        .Pick()
+                        .WithService.FirstNonGenericInterfaceInNamespace("Castle.MicroKernel.Tests.ClassComponents")
+        );
+
+      var repository = Kernel.Resolve<ICustomerRepository>();
+      Assert.IsNotNull(repository);
+    }
+
 		[Test]
 		public void RegisterGenericTypes_BasedOnGenericDefinitionUsingSelect_RegisteredInContainer()
 		{
