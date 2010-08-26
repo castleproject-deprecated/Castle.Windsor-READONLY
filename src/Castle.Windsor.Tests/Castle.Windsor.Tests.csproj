@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassComponents\DisposableFoo.cs" />
+    <Compile Include="ClassComponents\HasTwoConstructors4.cs" />
     <Compile Include="ClassComponents\UsesDisposableFoo.cs" />
     <Compile Include="Configuration2\PrivateSettersTestCase.cs" />
     <Compile Include="DisposeOrderTestFixture.cs" />
@@ -129,6 +130,8 @@
     <Compile Include="Components\ThrowsInCtorWithDisposableDependency.cs" />
     <Compile Include="Components\TwoCtorsWithDefaultValue.cs" />
     <Compile Include="DefaultValueTestCase.cs" />
+    <Compile Include="Facilities\TypedFactory\Delegates\UsesFooDelegateAndInt.cs" />
+    <Compile Include="Facilities\TypedFactory\TypedFactoryAndSubContainersTestCase.cs" />
     <Compile Include="FailureCleanUpTestCase.cs" />
     <Compile Include="Interceptors\ThrowInCtorInterceptor.cs" />
     <Compile Include="Lifestyle\Components\UsesComponentWithDispose.cs" />

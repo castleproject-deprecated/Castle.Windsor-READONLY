@@ -1,4 +1,4 @@
-﻿// Copyright 2004-2009 Castle Project - http://www.castleproject.org/
+﻿// Copyright 2004-2010 Castle Project - http://www.castleproject.org/
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,23 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Castle.MicroKernel.Tests.ClassComponents
+namespace Castle.Windsor.Tests.Facilities.TypedFactory.Delegates
 {
-	public class HasTwoConstructors3
-	{
-		public SimpleComponent1 X { get; private set; }
-		public SimpleComponent2 Y { get; private set; }
-		public SimpleComponent3 A { get; private set; }
+	using System;
 
-		public HasTwoConstructors3(SimpleComponent3 a)
+	public class UsesFooDelegateAndInt
+	{
+		private readonly Func<int, Foo> myFooFactory;
+		private int counter;
+
+		public UsesFooDelegateAndInt(Func<int, Foo> myFooFactory, int additionalArgument)
 		{
-			A = a;
+			AdditionalArgument = additionalArgument;
+			this.myFooFactory = myFooFactory;
+			counter = 0;
 		}
 
-		public HasTwoConstructors3(SimpleComponent1 x, SimpleComponent2 y)
+		public int AdditionalArgument { get; set; }
+
+		public Foo GetFoo()
 		{
-			X = x;
-			Y = y;
+			return myFooFactory(++counter);
 		}
 	}
 }

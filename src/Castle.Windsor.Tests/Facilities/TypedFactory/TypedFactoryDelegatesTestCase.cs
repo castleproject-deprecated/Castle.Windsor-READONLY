@@ -18,6 +18,7 @@ namespace Castle.Windsor.Tests.Facilities.TypedFactory
 
 	using Castle.Core;
 	using Castle.Facilities.TypedFactory;
+	using Castle.MicroKernel;
 	using Castle.MicroKernel.Registration;
 	using Castle.MicroKernel.Releasers;
 	using Castle.Windsor;
@@ -49,6 +50,15 @@ namespace Castle.Windsor.Tests.Facilities.TypedFactory
 
 			var obj = factory("naaaameee");
 			Assert.AreEqual("naaaameee", obj.Name);
+		}
+
+		[Test]
+		public void Can_resolve_component_depending_on_delegate_when_inline_argumens_are_provided()
+		{
+			container.Register(Component.For<Foo>(),
+			                   Component.For<UsesFooDelegateAndInt>());
+
+			var component = container.Resolve<UsesFooDelegateAndInt>(new Arguments().Insert("additionalArgument", 5));
 		}
 
 		[Test]
