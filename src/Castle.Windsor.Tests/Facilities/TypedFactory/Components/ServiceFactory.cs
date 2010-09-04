@@ -12,21 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Castle.Windsor.Tests.Interceptors
+namespace Castle.Windsor.Tests.Facilities.TypedFactory
 {
-	using Castle.Core;
-	using Castle.MicroKernel.Proxy;
+	using System;
 
-	public class AnotherInterceptorSelector : IModelInterceptorsSelector
+	using Castle.MicroKernel.Tests.ClassComponents;
+
+	public class ServiceFactory
 	{
-		public bool HasInterceptors(ComponentModel model)
+		public ServiceFactory(Func<ServiceRedirect> factory, Func<SimpleComponent1> factory2)
 		{
-			return model.Service == typeof(IWatcher);
+			Factory = factory;
 		}
 
-		public InterceptorReference[] SelectInterceptors(ComponentModel model, InterceptorReference[] interceptors)
-		{
-			return new[] { new InterceptorReference(typeof(WasCalledInterceptor)), };
-		}
+		public Func<ServiceRedirect> Factory { get; set; }
 	}
 }

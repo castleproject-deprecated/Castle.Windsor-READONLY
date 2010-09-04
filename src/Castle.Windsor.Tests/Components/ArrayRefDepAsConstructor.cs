@@ -12,21 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Castle.Windsor.Tests.Interceptors
+namespace Castle.Windsor.Tests.Components
 {
-	using Castle.Core;
-	using Castle.MicroKernel.Proxy;
-
-	public class AnotherInterceptorSelector : IModelInterceptorsSelector
+	public class ArrayRefDepAsConstructor
 	{
-		public bool HasInterceptors(ComponentModel model)
+		private readonly IEmptyService[] services;
+
+		public ArrayRefDepAsConstructor(ref IEmptyService[] services)
 		{
-			return model.Service == typeof(IWatcher);
+			this.services = services;
 		}
 
-		public InterceptorReference[] SelectInterceptors(ComponentModel model, InterceptorReference[] interceptors)
+		public IEmptyService[] Services
 		{
-			return new[] { new InterceptorReference(typeof(WasCalledInterceptor)), };
+			get { return services; }
 		}
 	}
 }

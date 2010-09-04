@@ -1,4 +1,4 @@
-﻿// Copyright 2004-2010 Castle Project - http://www.castleproject.org/
+// Copyright 2004-2010 Castle Project - http://www.castleproject.org/
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,21 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Castle.Windsor.Tests.Interceptors
+namespace Castle.Windsor.Tests.Facilities.TypedFactory
 {
-	using Castle.Core;
-	using Castle.MicroKernel.Proxy;
+	using System;
 
-	public class AnotherInterceptorSelector : IModelInterceptorsSelector
+	using Castle.MicroKernel.Tests.ClassComponents;
+
+	public class ServiceWithMultipleCtors
 	{
-		public bool HasInterceptors(ComponentModel model)
+		public ServiceWithMultipleCtors()
 		{
-			return model.Service == typeof(IWatcher);
 		}
 
-		public InterceptorReference[] SelectInterceptors(ComponentModel model, InterceptorReference[] interceptors)
+		public ServiceWithMultipleCtors(SimpleComponent3 a, Func<SimpleComponent1> b, Func<SimpleComponent2> c)
 		{
-			return new[] { new InterceptorReference(typeof(WasCalledInterceptor)), };
 		}
 	}
 }

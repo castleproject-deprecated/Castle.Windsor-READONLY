@@ -12,26 +12,40 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Castle.Windsor.Tests.Interceptors
+namespace Castle.Windsor.Tests.Proxy
 {
 	using System;
 	using System.Reflection;
 
-	using Castle.Core.Internal;
+	using Castle.Core;
+	using Castle.Core.Interceptor;
 	using Castle.DynamicProxy;
 
-	public class DummyInterceptorSelector : IInterceptorSelector
+	using NUnit.Framework;
+
+	public class OnBehalfAwareProxyGenerationHook : IProxyGenerationHook, IOnBehalfAware
 	{
-		public IInterceptor[] SelectInterceptors(Type type, MethodInfo method, IInterceptor[] interceptors)
+		public static ComponentModel target;
+
+		public void SetInterceptedComponentModel(ComponentModel target)
 		{
-			if (type.Is<ICatalog>())
-			{
-				if (method.Name == "AddItem")
-				{
-					return interceptors;
-				}
-			}
-			return null;
+			OnBehalfAwareProxyGenerationHook.target = target;
+		}
+
+		public void MethodsInspected()
+		{
+			Assert.IsNotNull(target);
+		}
+
+		public void NonProxyableMemberNotification(Type type, MemberInfo memberInfo)
+		{
+			Assert.IsNotNull(target);
+		}
+
+		public bool ShouldInterceptMethod(Type type, MethodInfo methodInfo)
+		{
+			Assert.IsNotNull(target);
+			return false;
 		}
 	}
 }
