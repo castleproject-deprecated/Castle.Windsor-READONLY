@@ -57,24 +57,27 @@ namespace Castle.MicroKernel.ModelBuilder.Inspectors
 
 		private void ProcessLateBoundModel(ComponentModel model)
 		{
-			var lateBoundCommissionConcern = new LateBoundConcerns();
-			if (model.Implementation.Is<IInitializable>())
+			var service = model.Service;
+			var commission = new LateBoundConcerns();
+			if (service.Is<IInitializable>())
 			{
 				model.Lifecycle.Add(InitializationConcern.Instance);
 			}
 			else
 			{
-				lateBoundCommissionConcern.AddConcern<IInitializable>(InitializationConcern.Instance);
+				commission.AddConcern<IInitializable>(InitializationConcern.Instance);
 			}
-			if (model.Implementation.Is<ISupportInitialize>())
+#if !SL3
+			if (service.Is<ISupportInitialize>())
 			{
 				model.Lifecycle.Add(SupportInitializeConcern.Instance);
 			}
 			else
 			{
-				lateBoundCommissionConcern.AddConcern<ISupportInitialize>(SupportInitializeConcern.Instance);
+				commission.AddConcern<ISupportInitialize>(SupportInitializeConcern.Instance);
 			}
-			if (model.Implementation.Is<IDisposable>())
+#endif
+			if (service.Is<IDisposable>())
 			{
 				model.Lifecycle.Add(DisposalConcern.Instance);
 			}
@@ -84,9 +87,9 @@ namespace Castle.MicroKernel.ModelBuilder.Inspectors
 				decommission.AddConcern<IDisposable>(DisposalConcern.Instance);
 				model.Lifecycle.Add(decommission as IDecommissionConcern);
 			}
-			if (lateBoundCommissionConcern.HasConcerns)
+			if (commission.HasConcerns)
 			{
-				model.Lifecycle.Add(lateBoundCommissionConcern as ICommissionConcern);
+				model.Lifecycle.Add(commission as ICommissionConcern);
 			}
 		}
 
@@ -96,10 +99,12 @@ namespace Castle.MicroKernel.ModelBuilder.Inspectors
 			{
 				model.Lifecycle.Add(InitializationConcern.Instance);
 			}
+#if !SL3
 			if (model.Implementation.Is<ISupportInitialize>())
 			{
 				model.Lifecycle.Add(SupportInitializeConcern.Instance);
 			}
+#endif
 			if (model.Implementation.Is<IDisposable>())
 			{
 				model.Lifecycle.Add(DisposalConcern.Instance);

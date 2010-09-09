@@ -12,23 +12,44 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Castle.Core.Internal
+namespace Castle.Windsor.Tests
 {
-	using System.Diagnostics;
+	using Castle.MicroKernel;
 
-	/// <summary>
-	/// Marker class used to denote components that have late bound type
-	/// That is the actual type is not known exactly at the time when <see cref="ComponentModel"/>
-	/// is created. Those are for example components instantiated via abstract factory.
-	/// </summary>
-	public sealed class LateBoundComponent
+	using NUnit.Framework;
+
+	[TestFixture]
+	public abstract class AbstractContainerTestFixture
 	{
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		public static object Instance = new LateBoundComponent();
+		private WindsorContainer container;
+		private IKernel kernel;
 
-		public override string ToString()
+		protected WindsorContainer Container
 		{
-			return "Late bound component, actual type is not known statically.";
+			get { return container; }
+		}
+
+		protected IKernel Kernel
+		{
+			get { return kernel; }
+		}
+
+		[TearDown]
+		public void CleanUp()
+		{
+			container.Dispose();
+		}
+
+		[SetUp]
+		public void Init()
+		{
+			container = BuildContainer();
+			kernel = container.Kernel;
+		}
+
+		protected virtual WindsorContainer BuildContainer()
+		{
+			return new WindsorContainer();
 		}
 	}
 }
