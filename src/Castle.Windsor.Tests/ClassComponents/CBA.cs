@@ -12,27 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Castle.Windsor.Experimental.Debugging
+namespace Castle.Windsor.Tests.ClassComponents
 {
-	using System.Diagnostics;
-
-	[DebuggerDisplay("{key}", Name = "{name,nq}")]
-	public class DebuggerViewItemRich
+	public class CBA
 	{
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly string name;
-
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly string key;
-
-		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-		private object value;
-
-		public DebuggerViewItemRich(string name, string key, object value)
+		public CBA(A a, B b)
 		{
-			this.name = name;
-			this.key = key;
-			this.value = value;
 		}
 	}
 }

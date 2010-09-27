@@ -19,25 +19,28 @@ namespace Castle.Windsor.Experimental.Debugging.Extensions
 
 	using Castle.MicroKernel;
 	using Castle.MicroKernel.SubSystems.Naming;
+	using Castle.Windsor.Experimental.Debugging.Primitives;
 
-	public class PotentiallyMisconfiguredComponents : IContainerDebuggerExtension
+	public class PotentiallyMisconfiguredComponents : AbstractContainerDebuggerExtension
 	{
 		private INamingSubSystem naming;
 
-		public IEnumerable<DebuggerViewItemRich> Attach()
+		public override IEnumerable<DebuggerViewItem> Attach()
 		{
 			var waitingComponents = naming.GetKey2Handler()
-				.Where(h => h.Value.CurrentState == HandlerState.WaitingDependency)
-				.ToArray();
-			if (waitingComponents.Length == 0)
+				.Where(h => h.Value.CurrentState == HandlerState.WaitingDependency);
+			if (waitingComponents.Any() == false)
 			{
 				yield break;
 			}
-			yield return new DebuggerViewItemRich("Potentially Misconfigured Components", "Count = " + waitingComponents.Length,
-			                                  new HandlersByKeyDictionaryDebuggerView(waitingComponents));
+			var waiting = GetMetaComponents(waitingComponents.ToDictionary(k => k.Key, v => v.Value));
+			var components = waiting.Select(DefaultComponentView).ToArray();
+			yield return new DebuggerViewItem("Potentially Misconfigured Components",
+			                                  "Count = " + components.Length,
+			                                  components);
 		}
 
-		public void Init(IKernel kernel)
+		public override void Init(IKernel kernel)
 		{
 			naming = kernel.GetSubSystem(SubSystemConstants.NamingKey) as INamingSubSystem;
 		}

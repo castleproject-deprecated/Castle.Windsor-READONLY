@@ -97,14 +97,18 @@
   <ItemGroup>
     <Compile Include="AbstractContainerTestFixture.cs" />
     <Compile Include="ByRefDependenciesTestCase.cs" />
+    <Compile Include="ClassComponents\CBA.cs" />
     <Compile Include="ClassComponents\HasByRefCtorArgument.cs" />
     <Compile Include="Components\ArrayRefDepAsConstructor.cs" />
+    <Compile Include="Components\EmptyServiceComposite.cs" />
     <Compile Include="Components\InitializableComponent.cs" />
     <Compile Include="Components\InitializableDisposableComponent.cs" />
     <Compile Include="Components\SimpleServiceInitializable.cs" />
     <Compile Include="Components\SimpleServiceSupportInitialize.cs" />
     <Compile Include="Components\SupportInitializeComponent.cs" />
     <Compile Include="ContainerAndGenericsInConfigTestCase.cs" />
+    <Compile Include="Experimental\AllComponentsTestCase.cs" />
+    <Compile Include="Experimental\ProblematicDependenciesTestCase.cs" />
     <Compile Include="Facilities\TypedFactory\Components\ServiceWithMultipleCtors.cs" />
     <Compile Include="Facilities\TypedFactory\Components\ServiceFactory.cs" />
     <Compile Include="Facilities\TypedFactory\Components\ServiceRedirect.cs" />

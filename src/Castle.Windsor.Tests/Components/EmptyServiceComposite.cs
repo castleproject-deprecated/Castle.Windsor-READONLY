@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Castle.Windsor.Experimental.Debugging
+namespace Castle.Windsor.Tests.Components
 {
-	using System.Collections.Generic;
-
-	using Castle.Windsor.Experimental.Debugging.Primitives;
-
-	public interface IComponentDebuggerExtension
+	public class EmptyServiceComposite : IEmptyService
 	{
-		IEnumerable<DebuggerViewItem> Attach();
+		public EmptyServiceComposite(IEmptyService[] inner)
+		{
+			Inner = inner;
+		}
+
+		public IEmptyService[] Inner { get; private set; }
 	}
 }

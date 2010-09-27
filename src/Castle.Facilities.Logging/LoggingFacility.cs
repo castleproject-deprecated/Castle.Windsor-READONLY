@@ -18,7 +18,6 @@ namespace Castle.Facilities.Logging
 	using System.Diagnostics;
 	using System.Reflection;
 
-	using Castle.Core;
 	using Castle.Core.Internal;
 	using Castle.Core.Logging;
 	using Castle.MicroKernel;
@@ -34,22 +33,22 @@ namespace Castle.Facilities.Logging
 #if !SILVERLIGHT
 		private static readonly String ExtendedLog4NetLoggerFactoryTypeName =
 			"Castle.Services.Logging.Log4netIntegration.ExtendedLog4netFactory," +
-			"Castle.Services.Logging.Log4netIntegration,Version=2.5.0.0, Culture=neutral," +
+			"Castle.Services.Logging.Log4netIntegration,Version=2.5.1.0, Culture=neutral," +
 			"PublicKeyToken=407dd0808d44fbdc";
 
 		private static readonly String ExtendedNLogLoggerFactoryTypeName =
 			"Castle.Services.Logging.NLogIntegration.ExtendedNLogFactory," +
-			"Castle.Services.Logging.NLogIntegration,Version=2.5.0.0, Culture=neutral," +
+			"Castle.Services.Logging.NLogIntegration,Version=2.5.1.0, Culture=neutral," +
 			"PublicKeyToken=407dd0808d44fbdc";
 
 		private static readonly String Log4NetLoggerFactoryTypeName =
 			"Castle.Services.Logging.Log4netIntegration.Log4netFactory," +
-			"Castle.Services.Logging.Log4netIntegration,Version=2.5.0.0, Culture=neutral," +
+			"Castle.Services.Logging.Log4netIntegration,Version=2.5.1.0, Culture=neutral," +
 			"PublicKeyToken=407dd0808d44fbdc";
 
 		private static readonly String NLogLoggerFactoryTypeName =
 			"Castle.Services.Logging.NLogIntegration.NLogFactory," +
-			"Castle.Services.Logging.NLogIntegration,Version=2.5.0.0, Culture=neutral," +
+			"Castle.Services.Logging.NLogIntegration,Version=2.5.1.0, Culture=neutral," +
 			"PublicKeyToken=407dd0808d44fbdc";
 #endif
 		private readonly string customLoggerFactoryTypeName;
@@ -320,8 +319,8 @@ namespace Castle.Facilities.Logging
 			if (factory is IExtendedLoggerFactory)
 			{
 				var defaultLogger = ((IExtendedLoggerFactory)factory).Create("Default");
-				Kernel.Register(Component.For<IExtendedLogger>().Named("ilogger.default").Instance(defaultLogger));
-				Kernel.Register(Component.For<ILogger>().Named("ilogger.default.base").Instance(defaultLogger));
+				Kernel.Register(Component.For<IExtendedLogger>().Named("ilogger.default").Instance(defaultLogger),
+				                Component.For<ILogger>().Named("ilogger.default.base").Instance(defaultLogger));
 			}
 			else
 			{
@@ -334,8 +333,8 @@ namespace Castle.Facilities.Logging
 			if (factory is IExtendedLoggerFactory)
 			{
 				Kernel.Register(
-					Component.For<IExtendedLoggerFactory>().Named("iloggerfactory").Instance((IExtendedLoggerFactory)factory));
-				Kernel.Register(Component.For<ILoggerFactory>().Named("iloggerfactory.base").Instance(factory));
+					Component.For<IExtendedLoggerFactory>().Named("iloggerfactory").Instance((IExtendedLoggerFactory)factory),
+					Component.For<ILoggerFactory>().Named("iloggerfactory.base").Instance(factory));
 			}
 			else
 			{

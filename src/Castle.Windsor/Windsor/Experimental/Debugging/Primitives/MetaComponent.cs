@@ -12,39 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Castle.Windsor.Experimental.Debugging
+namespace Castle.Windsor.Experimental.Debugging.Primitives
 {
+	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics;
 
-	using Castle.MicroKernel.Handlers;
+	using Castle.Core;
+	using Castle.MicroKernel;
 
-	public class ComponentStatusDebuggerViewItem
+	public class MetaComponent
 	{
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly IExposeDependencyInfo handler;
+		private readonly IList<Type> forwardedTypes;
 
-		public ComponentStatusDebuggerViewItem(IExposeDependencyInfo handler)
+		public MetaComponent(string name, IHandler handler, IList<Type> forwardedTypes)
 		{
-			this.handler = handler;
+			Name = name;
+			Handler = handler;
+			this.forwardedTypes = forwardedTypes;
 		}
 
-		public string Message
+		public IEnumerable<Type> ForwardedTypes
 		{
-			get
-			{
-				var message = "Some dependencies of this component could not be statically resolved.";
-				if (handler == null)
-				{
-					return message;
-				}
-				return message + handler.ObtainDependencyDetails(new List<object>());
-			}
+			get { return forwardedTypes; }
 		}
 
-		public override string ToString()
+		public int ForwardedTypesCount
 		{
-			return "This component may not resolve properly.";
+			get { return forwardedTypes.Count; }
 		}
+
+		public IHandler Handler { get; private set; }
+
+		public ComponentModel Model
+		{
+			get { return Handler.ComponentModel; }
+		}
+
+		public string Name { get; private set; }
 	}
 }

@@ -12,30 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Castle.Windsor.Experimental.Debugging.Extensions
+namespace Castle.Windsor.Experimental.Debugging
 {
-	using System.Collections.Generic;
+	using Castle.Core;
 
-	using Castle.MicroKernel;
-	using Castle.Windsor.Experimental.Debugging.Primitives;
-
-	public class Facilities : IContainerDebuggerExtension
+	public static class DescriptionUtil
 	{
-		private IKernel kernel;
-
-		public IEnumerable<DebuggerViewItem> Attach()
+		public static string GetLifestyleDescription(this ComponentModel componentModel)
 		{
-			var facilities = kernel.GetFacilities();
-			if (facilities.Length == 0)
+			if (componentModel.LifestyleType != LifestyleType.Custom)
 			{
-				yield break;
+				return componentModel.LifestyleType.ToString();
 			}
-			yield return new DebuggerViewItem("Facilities", "Count = " + facilities.Length, facilities);
-		}
-
-		public void Init(IKernel kernel)
-		{
-			this.kernel = kernel;
+			return string.Format("custom ({0})", componentModel.CustomLifestyle.FullName);
 		}
 	}
 }
