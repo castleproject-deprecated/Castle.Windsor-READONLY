@@ -33,23 +33,19 @@ namespace Castle.Facilities.Logging
 #if !SILVERLIGHT
 		private static readonly String ExtendedLog4NetLoggerFactoryTypeName =
 			"Castle.Services.Logging.Log4netIntegration.ExtendedLog4netFactory," +
-			"Castle.Services.Logging.Log4netIntegration,Version=2.5.1.0, Culture=neutral," +
-			"PublicKeyToken=407dd0808d44fbdc";
+			"Castle.Services.Logging.Log4netIntegration,Version=2.5.1.0";
 
 		private static readonly String ExtendedNLogLoggerFactoryTypeName =
 			"Castle.Services.Logging.NLogIntegration.ExtendedNLogFactory," +
-			"Castle.Services.Logging.NLogIntegration,Version=2.5.1.0, Culture=neutral," +
-			"PublicKeyToken=407dd0808d44fbdc";
+			"Castle.Services.Logging.NLogIntegration,Version=2.5.1.0";
 
 		private static readonly String Log4NetLoggerFactoryTypeName =
 			"Castle.Services.Logging.Log4netIntegration.Log4netFactory," +
-			"Castle.Services.Logging.Log4netIntegration,Version=2.5.1.0, Culture=neutral," +
-			"PublicKeyToken=407dd0808d44fbdc";
+			"Castle.Services.Logging.Log4netIntegration,Version=2.5.1.0";
 
 		private static readonly String NLogLoggerFactoryTypeName =
 			"Castle.Services.Logging.NLogIntegration.NLogFactory," +
-			"Castle.Services.Logging.NLogIntegration,Version=2.5.1.0, Culture=neutral," +
-			"PublicKeyToken=407dd0808d44fbdc";
+			"Castle.Services.Logging.NLogIntegration,Version=2.5.1.0";
 #endif
 		private readonly string customLoggerFactoryTypeName;
 		private string configFileName;
