@@ -341,6 +341,7 @@
   <ItemGroup>
     <Compile Include="AbstractContainerTestCase.cs" />
     <Compile Include="Bugs\IoC-267.cs" />
+    <Compile Include="Bugs\IoC-276.cs" />
     <Compile Include="ByRefDependenciesTestCase.cs" />
     <Compile Include="ClassComponents\CBA.cs" />
     <Compile Include="ClassComponents\GenericHasNested.cs" />
