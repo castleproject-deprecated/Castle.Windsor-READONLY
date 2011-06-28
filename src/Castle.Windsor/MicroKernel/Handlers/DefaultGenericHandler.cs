@@ -16,8 +16,11 @@ namespace Castle.MicroKernel.Handlers
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
+
 	using Castle.Core;
 	using Castle.MicroKernel.Context;
+	using Castle.MicroKernel.LifecycleConcerns;
 	using Castle.MicroKernel.Proxy;
 
 	/// <summary>
@@ -137,6 +140,22 @@ namespace Castle.MicroKernel.Handlers
 				// we need to check that we are not adding the inteceptor again, if it was added
 				// by a facility already
 				newModel.Interceptors.AddIfNotInCollection(interceptor);
+			}
+
+			// Inherit the parent handler lifecycle steps
+			var commissionStepsToAdd = ComponentModel.LifecycleSteps.GetCommissionSteps()
+				.Except(newModel.LifecycleSteps.GetCommissionSteps())
+				.ToArray();
+			foreach (ILifecycleConcern step in commissionStepsToAdd)
+			{
+				newModel.LifecycleSteps.Add(LifecycleStepType.Commission, step);
+			}
+			var decommissionStepsToAdd = ComponentModel.LifecycleSteps.GetDecommissionSteps()
+				.Except(newModel.LifecycleSteps.GetDecommissionSteps())
+				.ToArray();
+			foreach (ILifecycleConcern step in decommissionStepsToAdd)
+			{
+				newModel.LifecycleSteps.Add(LifecycleStepType.Decommission, step);
 			}
 		}
 	}

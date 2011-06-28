@@ -80,7 +80,15 @@ namespace Castle.MicroKernel.Tests.Lifecycle
 
 			service = container.Resolve<IService2>();
 			Assert.That(service.Name, Is.EqualTo("abab"));
+		}
 
+		[Test]
+		public void CanModify_when_component_is_generic()
+		{
+			container.Register(Component.For(typeof(GenericService1<>))
+					.OnCreate((kernel, instance) => ((IWithName)instance).Name = "a"));
+			var service = container.Resolve<GenericService1<int>>();
+			Assert.That(service.Name, Is.EqualTo("a"));
 		}
 	}
 
@@ -126,6 +134,16 @@ namespace Castle.MicroKernel.Tests.Lifecycle
 		}
 
 		#endregion
+	}
+
+	public interface IWithName
+	{
+		string Name { get; set; }
+	}
+
+	public class GenericService1<T> : IWithName
+	{
+		public string Name { get; set; }
 	}
 }
 
