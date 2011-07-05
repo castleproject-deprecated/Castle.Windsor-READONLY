@@ -104,7 +104,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\NET35-Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;DOTNET DOTNET35</DefineConstants>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisLogFile>bin\Debug\Castle.Windsor.Tests.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
@@ -555,6 +555,7 @@
     <Compile Include="Proxies\InterceptorDependenciesTestCase.cs" />
     <Compile Include="ProxyInfrastructure\OnBehalfAwareInterceptorSelector.cs" />
     <Compile Include="ProxyInfrastructure\OnBehalfAwareProxyGenerationHook.cs" />
+    <Compile Include="Given_a_service_is_registered_with_dependencies.cs" />
     <Compile Include="RegistrationWithAttributeAndXmlTestCase.cs" />
     <Compile Include="RegistrationWithAttributeTestCase.cs" />
     <Compile Include="Components\A.cs" />
