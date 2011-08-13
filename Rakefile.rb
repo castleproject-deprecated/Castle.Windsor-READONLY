@@ -18,8 +18,8 @@ desc 'generate the shared assembly info'
 assemblyinfo :assemblyinfo => ["env:release"] do |asm|
   data = commit_data() #hash + date
   asm.product_name = asm.title = PROJECTS[:ew][:title]
-  asm.description = PROJECTS[:ew][:description] + " #{data[0]} - #{data[1]}"
-  asm.company_name = PROJECTS[:ew][:company]
+  asm.description = PROJECTS[:win][:description] + " #{data[0]} - #{data[1]}"
+  asm.company_name = PROJECTS[:win][:company]
   # This is the version number used by framework during build and at runtime to locate, link and load the assemblies. When you add reference to any assembly in your project, it is this version number which gets embedded.
   asm.version = BUILD_VERSION
   # Assembly File Version : This is the version number given to file as in file system. It is displayed by Windows Explorer. Its never used by .NET framework or runtime for referencing.
@@ -27,7 +27,7 @@ assemblyinfo :assemblyinfo => ["env:release"] do |asm|
   asm.custom_attributes :AssemblyInformationalVersion => "#{BUILD_VERSION}", # disposed as product version in explorer
     :CLSCompliantAttribute => true,
     :AssemblyConfiguration => "#{CONFIGURATION}",
-    :Guid => PROJECTS[:ew][:guid]
+    :Guid => PROJECTS[:win][:guid]
   asm.com_visible = false
   asm.copyright = PROJECTS[:ew][:copyright]
   asm.output_file = File.join(FOLDERS[:src], 'SharedAssemblyInfo.cs')
