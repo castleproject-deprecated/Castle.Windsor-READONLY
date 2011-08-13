@@ -249,10 +249,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\buildscripts\CommonAssemblyInfo.cs">
-      <Link>CommonAssemblyInfo.cs</Link>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="CustomActivators\RemoteActivator.cs" />
     <Compile Include="CustomActivators\RemoteActivatorThroughConnector.cs" />
     <Compile Include="CustomActivators\RemoteActivatorThroughRegistry.cs" />

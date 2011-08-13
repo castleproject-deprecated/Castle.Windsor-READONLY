@@ -25,7 +25,7 @@ assemblyinfo :assemblyinfo => ["env:release"] do |asm|
   # Assembly File Version : This is the version number given to file as in file system. It is displayed by Windows Explorer. Its never used by .NET framework or runtime for referencing.
   asm.file_version = BUILD_VERSION
   asm.custom_attributes :AssemblyInformationalVersion => "#{BUILD_VERSION}", # disposed as product version in explorer
-    :CLSCompliantAttribute => false,
+    :CLSCompliantAttribute => true,
     :AssemblyConfiguration => "#{CONFIGURATION}",
     :Guid => PROJECTS[:ew][:guid]
   asm.com_visible = false
