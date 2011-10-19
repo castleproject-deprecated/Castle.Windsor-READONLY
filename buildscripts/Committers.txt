@@ -36,6 +36,7 @@ Committers
 - Krzysztof Kozmic
 - Mauricio Scheffer
 - John Simons
+- Henrik Feldt
 
 Managers 
 ========

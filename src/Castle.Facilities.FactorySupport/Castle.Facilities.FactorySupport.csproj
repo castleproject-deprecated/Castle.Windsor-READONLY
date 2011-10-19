@@ -249,11 +249,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\buildscripts\CommonAssemblyInfo.cs">
-      <Link>CommonAssemblyInfo.cs</Link>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AccessorActivator.cs" />
-    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="FactoryActivator.cs" />
     <Compile Include="FactorySupportFacility.cs" />
   </ItemGroup>

@@ -312,6 +312,9 @@
     <Compile Include="MicroKernel\ComponentActivator\WebUserControlComponentActivator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="AutoregisterPerWebRequestLifestyleModule.cs" />
     <Compile Include="Core\BoundToAttribute.cs" />
     <Compile Include="Core\ComponentDependencyModel.cs" />
@@ -793,10 +796,6 @@
     <Compile Include="MicroKernel\Util\ReferenceExpressionUtil.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\buildscripts\CommonAssemblyInfo.cs">
-      <Link>CommonAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="MicroKernel\Util\SimpleMethodEqualityComparer.cs" />
     <Compile Include="MicroKernel\Util\SimpleTypeEqualityComparer.cs" />
     <Compile Include="Windsor\Configuration\AppDomain\CastleSectionHandler.cs">
